@@ -8,6 +8,5 @@ services:
       - 3000:3000
     command: ["npm", "run", "dev"]
   mongo:
-    image: mongo
     ports:
       - 27017:27017
