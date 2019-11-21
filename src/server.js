@@ -1,16 +1,21 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+const instantsRoutes = require('./controllers/routes/instants');
+const PORT = 3000;
 
-app.post('/istants', (req, res) => {
+mongoose
+  .connect(
+    'mongodb://mongo:27017/expressmongo',
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
+  
+app.use('/', instantsRoutes);
 
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}!`);
 });
-app.get('/istants/:id', (req, res) => {
 
-});
-app.get('/istants', (req, res) => {
-
-});
-
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
-});
+module.exports = app;
