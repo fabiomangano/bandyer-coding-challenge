@@ -1,5 +1,19 @@
+require('dotenv').config();
+const express = require('express');
+const path = require('path');
+const exifParser = require('exif-parser');
+const rabbitmqConnection = require('../../rabbitmq/connection');
+const utils = require('../../utils');
+const router = express.Router();
 const Instant = require('../models/instant');
 const multer = require('multer');
+const fs = require('fs');
+
+const {
+  RABBITMQ_SERVER_URL,
+  RESIZE_IMAGE_QUEUE_NAME,
+  SERVER_URL,
+} = process.env;
 
 const {
   PUBLIC_ORIGINAL_PHOTO_FOLDER,
@@ -50,11 +64,15 @@ function postInstant(req, res) {
     }
   
     const image = fs.readFileSync(path.join('src', UPLOADS_FOLDER, req.file.filename));
+    const parser = exifParser.create(image);
+    const exif = parser.parse(req.file.filename);
 
     const newInstant = new Instant({
       uploaded: path.join(SERVER_URL, PUBLIC_ORIGINAL_PHOTO_FOLDER, req.file.filename),
       name: req.body.name,
       createdBy: req.body.createdBy,
+      latitude: exif.tags.GPSLatitude,
+      longitude: exif.tags.GPSLongitude,
       weight: req.file.size, 
     });
   
@@ -62,8 +80,23 @@ function postInstant(req, res) {
       if (err) {
         return res.send(err);
       }
-      //@TODO: resizeImage task
 
+      const jobData = {
+        id: newInstant.id,
+        filename: req.file.filename,
+        uploadedPath: path.join('src', UPLOADS_FOLDER, req.file.filename),
+      };
+
+      const channel = await rabbitmqConnection(
+        RABBITMQ_SERVER_URL,
+        RESIZE_IMAGE_QUEUE_NAME,
+      );
+
+      channel.sendToQueue(
+        RESIZE_IMAGE_QUEUE_NAME,
+        Buffer.from(JSON.stringify(jobData))
+      );
+      
       res.status(200).json({
         message: 'Instant successfully added!',
         savedInstant
@@ -83,8 +116,4 @@ function getInstant(req, res) {
 }
 
 //export all the functions
-module.exports = {
-  getInstants,
-  postInstant,
-  getInstant,
-};
+module.exports = router;
