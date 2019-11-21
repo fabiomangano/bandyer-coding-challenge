@@ -1,5 +1,10 @@
 version: "3"
 services:
   server:
-    image: node:current-alpine
-
+    container_name: server_1
+    image: node:12.13.0-alpine
+    links:
+     - mongo
+  mongo:
+    container_name: mongo_1
+    image: mongo
