@@ -3,17 +3,25 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('./mongoose/init');
 const instantsRouter = require('./controllers/routes/instants');
+const RMQConsumer = require('./rabbitmq/client');
 const app = express();
 
 const {
   SERVER_PORT,
   MONGODB_SERVER_URL,
-  PUBLIC_ORIGINAL_PHOTO_FOLDER,
-  UPLOADS_FOLDER,
+  RABBITMQ_SERVER_URL,
+  RESIZE_IMAGE_QUEUE_NAME,
+  SERVER_URL,
 } = process.env;
 
-// Bootstrap Mongoose
+const {
+  PUBLIC_ORIGINAL_PHOTO_FOLDER,
+  UPLOADS_FOLDER,
+} = require('./config');
+
+// Bootstrap Mongoose and the rabbitmq client
 mongoose.run(MONGODB_SERVER_URL);
+RMQConsumer.run(RABBITMQ_SERVER_URL, RESIZE_IMAGE_QUEUE_NAME, SERVER_URL);
 
 // Parse application/json and look for raw text
 app.use(bodyParser.json());
