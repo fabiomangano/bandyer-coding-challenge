@@ -4,9 +4,8 @@
   "description": "A small backend for a mobile app allows users to create instants uploading their photos.",
   "main": "server.js",
   "scripts": {
-    "start-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
-    "dev": "nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
+    "dev": "nodemon src/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,9 +18,16 @@
   },
   "homepage": "https://github.com/fabiomangano/bandyer-project#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "4.17.1",
+    "mongoose": "5.7.11"
   },
   "devDependencies": {
-    "nodemon": "^1.19.4"
+    "babel-eslint": "10.0.3",
+    "chai": "4.2.0",
+    "chai-http": "4.3.0",
+    "eslint": "6.6.0",
+    "eslint-config-strongloop": "2.1.0",
+    "mocha": "6.2.2",
+    "nodemon": "1.19.4"
   }
 }
