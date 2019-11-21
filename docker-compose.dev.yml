@@ -2,8 +2,12 @@ version: "3"
 services:
   server:
     volumes: 
-      - ./:/app
+      - .:/app
     working_dir: /app
     ports:
       - 3000:3000
-    command: npm run dev
+    command: ["npm", "run", "dev"]
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
