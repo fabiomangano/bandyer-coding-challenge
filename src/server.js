@@ -15,6 +15,8 @@ const {
 } = process.env;
 
 const {
+  PUBLIC_PHOTO_FOLDER,
+  RESIZED_PHOTO_FOLDER,
   PUBLIC_ORIGINAL_PHOTO_FOLDER,
   UPLOADS_FOLDER,
 } = require('./config');
@@ -28,6 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 // Expose directory "instants" under the public folder "photos" to get saved photos
+app.use(`/${PUBLIC_PHOTO_FOLDER}`, express.static(`${__dirname}/${RESIZED_PHOTO_FOLDER}`));
 app.use(`/${PUBLIC_ORIGINAL_PHOTO_FOLDER}`, express.static(`${__dirname}/${UPLOADS_FOLDER}`));
 
 // Use instants routes on app

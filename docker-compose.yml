@@ -3,6 +3,30 @@ services:
   server:
     container_name: server
     image: node:12.13.0-alpine
+    volumes:
+      - ./:/app
+    working_dir: /app
+    ports:
+      - 3000:3000
+    depends_on:
+      mongo:
+          condition: service_healthy
+      rabbitmq:
+          condition: service_healthy 
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+     - 27017:27017
+    healthcheck:
+      test: exit 0
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:alpine
+    ports:
+     - 5672:5672
+    healthcheck:
+      test: exit 0         
 
 
 
