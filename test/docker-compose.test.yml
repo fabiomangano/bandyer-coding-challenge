@@ -1,0 +1,6 @@
+version: '2.1'
+services:
+  server:
+    command: npm run test
+    env_file:
+      - ./dev.env  
