@@ -69,7 +69,7 @@ router.post('/', (req, res) => {
     const exif = parser.parse(req.file.filename);
 
     const newInstant = new Instant({
-      uploaded: path.join(SERVER_URL, PUBLIC_ORIGINAL_PHOTO_FOLDER, req.file.filename),
+      uploaded: `${SERVER_URL}/${PUBLIC_ORIGINAL_PHOTO_FOLDER}/${req.file.filename}`,
       name: req.body.name,
       createdBy: req.body.createdBy,
       latitude: exif.tags.GPSLatitude,
