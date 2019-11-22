@@ -34,7 +34,7 @@ const storage = multer.diskStorage({
  */
 router.get('/', (req, res) => {
   // Query the DB and if no errors, send all the instants
-  let query = Instant.find({});
+  let query = Instant.find({}).sort({createdAt: 'desc'});
   query.exec((err, instants) => {
     if (err) res.send(err);
     res.json(instants);
@@ -74,7 +74,7 @@ router.post('/', (req, res) => {
       createdBy: req.body.createdBy,
       latitude: exif.tags.GPSLatitude,
       longitude: exif.tags.GPSLongitude,
-      weight: req.file.size, // dell'immagine originale ?
+      weight: req.file.size,
     });
 
     newInstant.save(async(err, savedInstant) => {
