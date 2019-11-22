@@ -30,20 +30,21 @@ const storage = multer.diskStorage({
 });
 
 /*
-GET /instants route to retrieve all instants.
+ * GET /instants route to retrieve all instants.
  */
-function getInstants(req, res) {
+router.get('/', (req, res) => {
   // Query the DB and if no errors, send all the instants
-  Instant.find({}).exec((err, instants) => {
+  let query = Instant.find({});
+  query.exec((err, instants) => {
     if (err) res.send(err);
     res.json(instants);
   });
-}
+});
 
 /*
  * POST /instances to save a new instant.
  */
-function postInstant(req, res) {
+router.post('/', (req, res) => {
   const upload = multer({ storage: storage, fileFilter: utils.imageFilter }).single('file');
 
   upload(req, res, (err) => {
@@ -62,7 +63,7 @@ function postInstant(req, res) {
       res.status(500);
       return res.send(err);
     }
-  
+
     const image = fs.readFileSync(path.join('src', UPLOADS_FOLDER, req.file.filename));
     const parser = exifParser.create(image);
     const exif = parser.parse(req.file.filename);
@@ -73,9 +74,9 @@ function postInstant(req, res) {
       createdBy: req.body.createdBy,
       latitude: exif.tags.GPSLatitude,
       longitude: exif.tags.GPSLongitude,
-      weight: req.file.size, 
+      weight: req.file.size, // dell'immagine originale ?
     });
-  
+
     newInstant.save(async(err, savedInstant) => {
       if (err) {
         return res.send(err);
@@ -96,24 +97,24 @@ function postInstant(req, res) {
         RESIZE_IMAGE_QUEUE_NAME,
         Buffer.from(JSON.stringify(jobData))
       );
-      
-      res.status(200).json({
+
+      res.json({
         message: 'Instant successfully added!',
-        savedInstant
+        savedInstant,
       });
-    })  
+    });
   });
-}
+});
 
 /*
  * GET /instants/:id route to retrieve a instant given its id.
  */
-function getInstant(req, res) {
+router.get('/:id', (req, res) => {
   Instant.findById(req.params.id, (err, instant) => {
     if (err) res.send(err);
     res.json(instant);
   });
-}
+});
 
-//export all the functions
+// export all the functions
 module.exports = router;
