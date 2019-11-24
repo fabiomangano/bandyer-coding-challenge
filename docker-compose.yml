@@ -16,13 +16,17 @@ services:
   mongo:
     container_name: mongo
     image: mongo
+    logging:
+      driver: none 
     ports:
      - 27017:27017
     healthcheck:
-      test: exit 0
+     test: exit 0
   rabbitmq:
     container_name: rabbitmq
     image: rabbitmq:alpine
+    logging:
+      driver: none 
     ports:
      - 5672:5672
     healthcheck:
