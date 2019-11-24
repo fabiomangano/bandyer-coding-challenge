@@ -69,7 +69,7 @@ async function postInstant(req, res) {
     const exif = parser.parse(file.filename);
 
     const newInstant = new Instant({
-      uploaded: path.join(SERVER_URL, PUBLIC_ORIGINAL_PHOTO_FOLDER, file.filename),
+      uploaded: `${SERVER_URL}/${PUBLIC_ORIGINAL_PHOTO_FOLDER}/${file.filename}`,
       name: body.name,
       createdBy: body.createdBy,
       latitude: exif.tags.GPSLatitude,
