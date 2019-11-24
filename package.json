@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
-    "start:dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
-    "dev": "nodemon src/server.js"
+    "start-dev": "docker-compose -f docker-compose.yml -f docker-compose.dev.yml up",
+    "start-test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up",
+    "dev": "./node_modules/nodemon/bin/nodemon.js src/server.js",
+    "test": "./node_modules/.bin/mocha ./test/*.test.js --watch --recursive"
   },
   "repository": {
     "type": "git",
