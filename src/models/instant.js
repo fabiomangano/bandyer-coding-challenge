@@ -3,9 +3,10 @@ const Schema = mongoose.Schema;
 
 const {INSTANT_STATUS} = require('../config');
 
+let InstantSchema = null;
+
 // Instant schema definition
-// @TODO bisogna salvare anche i campi di quella resized
-const InstantSchema = new Schema(
+const instantSchema = new Schema(
   {
     name: {
       type: String,
@@ -49,12 +50,20 @@ const InstantSchema = new Schema(
 );
 
 // Sets the createdAt parameter equal to the current time
-InstantSchema.pre('save', next => {
+instantSchema.pre('save', next => {
   if (!this.createdAt) {
     this.createdAt = new Date();
   }
   next();
 });
 
+// to avoid OverwriteModelError
+// https://github.com/kriasoft/react-starter-kit/issues/1418
+try {
+  InstantSchema = mongoose.model('instant', instantSchema);
+} catch (e) {
+  InstantSchema = mongoose.model('instant');
+}
+
 // Exports the InstantSchema for use elsewhere.
-module.exports = mongoose.model('instant', InstantSchema);
+module.exports = InstantSchema;

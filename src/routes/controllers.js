@@ -38,7 +38,7 @@ const upload = util.promisify(multer({
 async function getInstants(req, res) {
   // Query the DB and if no errors, send all the instants
   try {
-    const instants = await Instant.find({}).exec();
+    const instants = await Instant.find().sort({createdAt: 'desc'}).exec();
     res.json(instants);
   } catch (err) {
     res.send(err);
