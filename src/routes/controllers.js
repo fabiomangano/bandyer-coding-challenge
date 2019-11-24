@@ -1,12 +1,12 @@
 require('dotenv').config();
 const path = require('path');
 const util = require('util');
+const fs = require('fs');
 const Instant = require('../models/instant');
 const exifParser = require('exif-parser');
 const multer = require('multer');
-const fs = require('fs');
-const sendInstantToJobQueue = require('../rabbitmq/sendInstantToJobQueue');
 const utils = require('../utils');
+const sendInstantToJobQueue = require('../rabbitmq/sendInstantToJobQueue');
 
 const {
   RABBITMQ_SERVER_URL,
@@ -34,6 +34,8 @@ const upload = util.promisify(multer({
   storage,
   fileFilter: utils.imageFilter,
 }).single('file'));
+
+const readFileAsync = util.promisify(fs.readFile);
 
 async function getInstants(req, res) {
   // Query the DB and if no errors, send all the instants
@@ -64,7 +66,7 @@ async function postInstant(req, res) {
   try {
     await upload(req, res);
     const {file, body} = req;
-    const image = fs.readFileSync(path.join('src', UPLOADS_FOLDER, file.filename));
+    const image = await readFileAsync(path.join('src', UPLOADS_FOLDER, file.filename));
     const parser = exifParser.create(image);
     const exif = parser.parse(file.filename);
 
