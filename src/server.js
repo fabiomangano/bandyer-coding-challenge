@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('./mongoose/init');
-const instantsRouter = require('./controllers/routes/instants');
+const instantsRouter = require('./routes/instants');
 const RMQConsumer = require('./rabbitmq/client');
 const app = express();
 

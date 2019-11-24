@@ -1,5 +1,5 @@
 const createConnection = require('./connection');
-const Instant = require('../controllers/models/instant');
+const Instant = require('../models/instant');
 const {
   PUBLIC_PHOTO_FOLDER,
   INSTANT_STATUS,
