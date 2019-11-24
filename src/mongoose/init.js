@@ -9,7 +9,7 @@ function run(url) {
         useUnifiedTopology: true,
       },
     )
-    .then(() => console.log('MongoDB Connected'))
+    .then(() => {})
     .catch(err => console.log(err));
 }
 
