@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const exifParser = require('exif-parser');
-const rabbitmqConnection = require('../../rabbitmq/connection');
-const utils = require('../../utils');
+const rabbitmqConnection = require('../rabbitmq/connection');
+const utils = require('../utils');
 const router = express.Router();
 const Instant = require('../models/instant');
 const multer = require('multer');
@@ -18,7 +18,7 @@ const {
 const {
   PUBLIC_ORIGINAL_PHOTO_FOLDER,
   UPLOADS_FOLDER,
-} = require('../../config');
+} = require('../config');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {

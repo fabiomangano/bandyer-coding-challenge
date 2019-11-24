@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const {INSTANT_STATUS} = require('../../config');
+const {INSTANT_STATUS} = require('../config');
 
 // Instant schema definition
 // @TODO bisogna salvare anche i campi di quella resized
