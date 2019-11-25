@@ -12,9 +12,4 @@ node_modules/
 # Optional eslint cache
 .eslintcache
 
-# dotenv environment variables file
-.env
-.env.test
 
-# uploads folder
-*/uploads/
