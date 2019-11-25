@@ -1,0 +1,8 @@
+.dockerignore
+.gitignore
+README.md
+ext_resource/
+.editorconfig
+.eslintrc.json
+
+
