@@ -1,0 +1,22 @@
+version: '2.1'
+services:
+  server:
+    build:
+      dockerfile: ./docker/dockerfile.prod   
+    restart: always      
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+

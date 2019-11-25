@@ -1,18 +1,17 @@
 version: '2.1'
 services:
   server:
-    container_name: server
-    image: node:12.13.0-alpine
-    volumes:
-      - ./:/app
-    working_dir: /app
+    build:
+      context: .
+    env_file:
+      - ./dev.env
     ports:
-      - 3000:3000
+      - 3000:3000    
     depends_on:
       mongo:
           condition: service_healthy
       rabbitmq:
-          condition: service_healthy 
+          condition: service_healthy   
   mongo:
     container_name: mongo
     image: mongo
@@ -30,7 +29,9 @@ services:
     ports:
      - 5672:5672
     healthcheck:
-      test: exit 0         
+      test: exit 0 
+
+     
 
 
 

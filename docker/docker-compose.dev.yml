@@ -1,0 +1,23 @@
+version: '2.1'
+services:
+  server:
+    build:
+      dockerfile: ./docker/dockerfile.dev 
+    volumes:
+      - ./:/app
+    command: ./node_modules/nodemon/bin/nodemon.js src/server.js
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,11 @@
+version: '2.1'
+services:
+  server:
+    build:
+      dockerfile: ./docker/dockerfile.test
+    volumes:
+      - ./:/app
+    command: ./node_modules/.bin/mocha ./test/*.test.js --watch --recursive 
+ 
+
+   
